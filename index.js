@@ -96,12 +96,18 @@ MongoStore.prototype.get = function *(sid){
  */
 
 MongoStore.prototype.set = function *(sid, session){
-  debug('SET %s %j', sid, session);
   try {
+
+    debug('SET %s %j', sid, session);
     session._sid = sid;
-    var s = {_id: sid, session: JSON.stringify(session) };
+
+    var s = { 
+      _id: sid, 
+      session: JSON.stringify(session) 
+    };
+
     if (session && session.cookie && session.cookie.expires) {
-      debug('session cookie has expires %s', session.cookie.expires);
+      debug('session cookie expires %s', session.cookie.expires);
       s.expires = new Date(session.cookie.expires);
     } else {
       var today = new Date();
@@ -109,11 +115,10 @@ MongoStore.prototype.set = function *(sid, session){
       debug('creating new expiration %j', s);
     }
     yield this.collection.update({ _id : sid}, s, { upsert: true, safe: true });
-  } catch(err) {
+  } catch (err) {
     debug('error setting store %s', err);
     return err;
   }
-  debug('SET complete');
 };
 
 /**

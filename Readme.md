@@ -10,6 +10,7 @@ var session = require('koa-sess');
 var mongoStore = require('koa-mongo-session');
 
 var app = koa();
+app.keys = ['key', 'anotherkey'];
 
 app.use(session({ 
   store: mongoStore({

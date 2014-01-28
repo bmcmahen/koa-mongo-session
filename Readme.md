@@ -11,7 +11,12 @@ var mongoStore = require('koa-mongo-session');
 
 var app = koa();
 
-app.use(session({ store: mongoStore() }));
+app.use(session({ 
+  store: mongoStore({
+    mongo: '127.0.0.1:27017/test',
+    expiration: 1000 * 60 * 60 * 24 * 14
+  }) 
+}));
 
 app.use(function* (){
   this.session.count = this.session.count || 0;

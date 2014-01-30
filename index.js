@@ -110,7 +110,19 @@ MongoStore.prototype.set = function *(sid, session){
       s.expires = new Date(today.getTime() + this.defaultExpirationTime);
       debug('creating new expiration %j', s);
     }
-    yield this.collection.update({ _id : sid}, s, { upsert: true, safe: true });
+    
+    // It would be more efficient to simply use upsert here, but for 
+    // my purposes I need a distinct $set op to be triggered in 
+    // the oplog.
+  
+    var ses = yield this.collection.findById(sid);
+    if (ses) {
+      yield this.collection.update({ _id: sid }, { 
+        $set : { expires: s.expires, session: s.session }
+      });
+    } else {
+      yield this.collection.insert({ _id : sid }, s);
+    }
   } catch (err) {
     debug('error setting store %s', err);
     return err;

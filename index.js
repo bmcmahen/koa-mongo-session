@@ -97,15 +97,11 @@ MongoStore.prototype.get = function *(sid){
 
 MongoStore.prototype.set = function *(sid, session){
   try {
-
     debug('SET %s %j', sid, session);
-    session._sid = sid;
-
     var s = { 
       _id: sid, 
       session: JSON.stringify(session) 
     };
-
     if (session && session.cookie && session.cookie.expires) {
       debug('session cookie expires %s', session.cookie.expires);
       s.expires = new Date(session.cookie.expires);
@@ -135,4 +131,3 @@ MongoStore.prototype.destroy = function *(sid){
   }
   debug('DEL %s', sid);
 };
-

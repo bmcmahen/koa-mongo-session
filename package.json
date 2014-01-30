@@ -1,6 +1,6 @@
 {
   "name": "koa-mongo-session",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "mongo sessions for koa",
   "repository": "bmcmahen/koa-mongo-session",
   "main": "index.js",

@@ -1,3 +1,5 @@
+# Deprecated. Use [koa-mongodb-session](https://github.com/aheckmann/koa-mongodb-session/) instead.
+
 ## koa-mongo-session
 
 mongo-db session management for `koa` and `koa-sess`.
